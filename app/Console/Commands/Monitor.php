@@ -60,6 +60,14 @@ class Monitor extends Command {
 	 */
 	protected $email_subject = 'Web Monitor Alert';
 
+	/**
+	 * A buffer of two minutes to add to any last alive checks to stop error beind fired
+	 * if we run a second or two late.
+	 *
+	 * @var int
+	 */
+	protected $last_alive_buffer = 120;
+
 	/*----------------------
 	// 
 	// VARS
@@ -212,11 +220,11 @@ class Monitor extends Command {
 	 */	
 	protected function checkLastAlive( $_web_app ){
 		$_run_schedule = $_web_app->runSchedule;
-
 		$seconds_interval = $_run_schedule->getAliveInterval();
 		$this->setLatestLog( $_web_app );
+
 		if( $this->_latest_log )
-			if( strtotime( $this->_latest_log->updated_at ) < ( $this->now - $seconds_interval ) )
+			if( strtotime( $this->_latest_log->updated_at ) < ( $this->now - ( $seconds_interval + $this->last_alive_buffer ) ) )
 				return false;
 
 		return true;

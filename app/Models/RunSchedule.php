@@ -36,7 +36,7 @@ class RunSchedule extends Model {
 	 */
 	public function getAliveInterval(){		
 		sscanf( $this->rules, "%d:%d:%d", $hours, $minutes, $seconds );
-		$seconds = isset( $seconds ) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+		$seconds = isset( $seconds ) ? ($hours * 3600) + ($minutes * 60) + $seconds : ($hours * 3600) + ($minutes *60);
 		return $seconds;
 	}
 }
