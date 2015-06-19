@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "airshipwebservices/webmonitorclient",
+    "description": "client for interfacing with the webmonitor app",
+    "keywords": ["webmonitor", "client"],
     "license": "MIT",
     "type": "project",
     "require": {
