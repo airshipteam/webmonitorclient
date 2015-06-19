@@ -1,8 +1,8 @@
-<?php namespace App\Http\Controllers;
+<?php namespace airshipwebservices\webmonitorclient;
 
 use Unirest;
 
-class LoggerController extends Controller{
+class Logger{
 
 	/**********************************
 	 *
@@ -85,7 +85,11 @@ class LoggerController extends Controller{
 	 * @return void
 	 */
 	public function __construct(){		
-		$this->web_monitor_host = config('app.web_monitor_host');
+		$this->web_monitor_host = "http://webmonitor.local.airship.co.uk";
+	}
+
+	public function eatIt(){
+		return true;
 	}
 
 	/**
