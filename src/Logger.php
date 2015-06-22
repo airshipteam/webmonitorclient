@@ -88,10 +88,6 @@ class Logger{
 		$this->web_monitor_host = "http://webmonitor.local.airship.co.uk";
 	}
 
-	public function eatIt(){
-		return true;
-	}
-
 	/**
 	 * WRITE LOG
 	 * Entry point for sending a request message to the web monitor
@@ -101,7 +97,12 @@ class Logger{
 	 */
 	public function writeLog( $params ){
 		$params['route'] = isset( $params['route'] ) ? $params['route'] : $this->default_route;
-		return $this->makeWebMonitorRequest( $params );
+		$result = $this->makeWebMonitorRequest( $params );
+
+		if( $result->code == 200 && isset($result->body) )
+			return true;
+
+		return false;
 	}
 
 	/**
