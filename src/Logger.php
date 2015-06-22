@@ -84,8 +84,9 @@ class Logger{
 	 *
 	 * @return void
 	 */
-	public function __construct(){		
-		$this->web_monitor_host = "http://webmonitor.local.airship.co.uk";
+	public function __construct(){
+		include( 'Config.php' );
+		$this->web_monitor_host = $config['web_monitor_host'];
 	}
 
 	/**
