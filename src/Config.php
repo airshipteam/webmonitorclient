@@ -11,6 +11,6 @@ $config = [
   	 * The host for the web monitor server
   	 *
   	 */
-	"web_monitor_host" => "https://airship-webmonitor.webservices.airship.co.uk"
+	"web_monitor_host" => "http://airship-webmonitor.webservices.airship.co.uk"
 ];
 
