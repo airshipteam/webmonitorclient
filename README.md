@@ -34,5 +34,25 @@ public function __construct( Logger $_Logger ){
 }
 ```
 
+### Additional Requirements
+Your project requires an app id ( this will be the web app id for your project in the webmonitor database )
+
+To call the logger, any log message must take the following format:
+
+```php
+$params = array(		
+	'body'	=> array( 
+		'status' 		=> // boolean 1 = good, 0 = bad, 
+		'severity' 		=> 50, 
+		'msg' 			=> // String. The message to log
+		'send_email' 	=> // Email address any errors are to be sent, 
+	),
+	'app_id' => // web app id as defined above
+);
+
+$this->_logger->writeLog( $params );
+		
+```
+
 
 
