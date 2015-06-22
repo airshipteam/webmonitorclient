@@ -2,9 +2,15 @@
 use airshipwebservices\webmonitorclient\Logger;
  
 class LoggerTest extends PHPUnit_Framework_TestCase {
- 
-	public function testWriteLog(){
-		$params = [
+
+	public function __construct(){
+		parent::__construct();
+
+		$this->mockLogger = $this->getMockBuilder('airshipwebservices\webmonitorclient\Logger')
+						 ->setMethods(array('makeWebMonitorRequest'))
+						 ->getMock();
+
+		$this->params = [
 			"body" => [
 				"status" => FALSE, 
 				"severity" => 50,
@@ -12,71 +18,40 @@ class LoggerTest extends PHPUnit_Framework_TestCase {
 			],
 			"app_id" => 1
 		];
-
-		$noCreate = $this->getMockBuilder('airshipwebservices\webmonitorclient\Logger')
-						 ->setMethods(array('makeWebMonitorRequest'))
-						 ->getMock();
-
+	}
+ 
+	public function testWriteLog(){
 		$fail_return_obj = new stdClass();
 		$fail_return_obj->code = 200;
 		$fail_return_obj->body = ['body'];
+		
+		$this->mockLogger->expects( $this->once() )
+				 		 ->method('makeWebMonitorRequest')
+				 		 ->will( $this->returnValue($fail_return_obj) );
 
-		$noCreate->expects( $this->once() )
-				 ->method('makeWebMonitorRequest')
-				 ->will( $this->returnValue($fail_return_obj) );
-
-		$this->assertEquals( True, $noCreate->writeLog( $params ) );
+		$this->assertEquals( True, $this->mockLogger->writeLog( $this->params ) );
 	} 
 
 	public function testWriteLogFailCode(){
-		$params = [
-			"body" => [
-				"status" => FALSE, 
-				"severity" => 50,
-				"msg" => "This is an Error"
-			],
-			"app_id" => 21
-		];
-
-		$noCreate = $this->getMockBuilder('airshipwebservices\webmonitorclient\Logger')
-						 ->setMethods(array('makeWebMonitorRequest'))
-						 ->getMock();
-
 		$fail_return_obj = new stdClass();
 		$fail_return_obj->code = 500;
+		$fail_return_obj->body = ['body'];
 
-		$noCreate->expects( $this->once() )
-				 ->method('makeWebMonitorRequest')
-				 ->will( $this->returnValue($fail_return_obj) );
+		$this->mockLogger->expects( $this->once() )
+				 		 ->method('makeWebMonitorRequest')
+				 		 ->will( $this->returnValue($fail_return_obj) );
 
-		$result = $noCreate->writeLog( $params );
-
-		$this->assertEquals( False, $result );
+		$this->assertEquals( False, $this->mockLogger->writeLog( $this->params ) );
 	}
 
 	public function testWriteLogFailBody(){
-		$params = [
-			"body" => [
-				"status" => FALSE, 
-				"severity" => 50,
-				"msg" => "This is an Error"
-			],
-			"app_id" => 21
-		];
-
-		$noCreate = $this->getMockBuilder('airshipwebservices\webmonitorclient\Logger')
-						 ->setMethods(array('makeWebMonitorRequest'))
-						 ->getMock();
-
 		$fail_return_obj = new stdClass();
 		$fail_return_obj->code = 200;
 
-		$noCreate->expects( $this->once() )
-				 ->method('makeWebMonitorRequest')
-				 ->will( $this->returnValue($fail_return_obj) );
+		$this->mockLogger->expects( $this->once() )
+				 		 ->method('makeWebMonitorRequest')
+				 		 ->will( $this->returnValue($fail_return_obj) );
 
-		$result = $noCreate->writeLog( $params );
-
-		$this->assertEquals( False, $result );
+		$this->assertEquals( False, $this->mockLogger->writeLog( $this->params ) );
 	}
 }
