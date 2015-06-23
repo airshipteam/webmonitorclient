@@ -57,11 +57,10 @@ class ReceiveController extends Controller {
 	/**
 	 * MSG
 	 * Will receive a msg from a web app and write a new log record
-	 * If the status is set to '0' ( failure ), then an email will be sent
 	 *
 	 * @param int $id
 	 * @param Log $_log
-	 * @return null
+	 * @return Response
 	 */
 	public function msg( $id, Log $_log ){
 		$this->input = $this->_request->all();
@@ -69,6 +68,8 @@ class ReceiveController extends Controller {
 		$this->input['web_app_id'] = $this->id;
 
 		$this->_log = $_log->create( $this->input );	
+
+		return response()->json( $this->_log->toArray() );		
 	}
 }
 

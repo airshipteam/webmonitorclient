@@ -2,6 +2,8 @@
 
 use Illuminate\Console\Command;
 use App\Models\WebApp;
+use App\Models\SelfLog;
+
 use Illuminate\Contracts\Mail\Mailer;
 
 class Monitor extends Command {
@@ -125,6 +127,13 @@ class Monitor extends Command {
 	 */
 	protected $_latest_log;
 
+	/**
+	 * Self log model
+	 *
+	 * @var SelfLog
+	 */
+	protected $_self_log;
+
 	/*----------------------
 	// 
 	// OBJECTS
@@ -142,14 +151,17 @@ class Monitor extends Command {
 	 * Gets instance of WebApp model
 	 * Sets the runtime timestamp
 	 *
-	 * @var WebApp $_web_app
+	 * @var WebApp $_Web_app
+ 	 * @var Mailer $_Mail
+	 * @var SelfLog $_Self_Log
 	 * @return void
 	 */
-	public function __construct( WebApp $_web_app, Mailer $_mail ){		
+	public function __construct( WebApp $_Web_app, Mailer $_Mail, SelfLog $_Self_log ){		
 		parent::__construct();
 
-		$this->_web_app = $_web_app;
-		$this->_mail = $_mail;
+		$this->_web_app = $_Web_app;
+		$this->_mail = $_Mail;
+		$this->_self_log = $_Self_log;
 
 		$this->now = time();
 
@@ -164,8 +176,20 @@ class Monitor extends Command {
 	 * @return void
 	 */
 	public function fire(){
+		$this->alive();
 		$this->getWebAppsCollection();
 		$this->doChecks();
+	}
+
+	/**
+	 * ALIVE
+	 * First thing we do is write to the database to confirm we are alive
+	 *
+	 * @return void
+	 */
+	protected function alive(){
+		$self_log = ['status' => 1];
+		$this->_self_log->create( $self_log );
 	}
 
 	/**
