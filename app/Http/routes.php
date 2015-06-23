@@ -16,6 +16,11 @@ Route::post('/msg/{id}', [
 	'uses' => 'ReceiveController@msg'
 ]);
 
+Route::get('/alive', [
+	'as' => 'alive',
+	'uses' => 'ReceiveController@alive'
+]);
+
 
 //Route::post('/alive/{id}', 'AliveController@index');
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Models\Log;
+use App\Models\SelfLog;
 
 class ReceiveController extends Controller {
 
@@ -24,13 +25,6 @@ class ReceiveController extends Controller {
 	protected $_request;
 
 	/**
-	 * The Log model
-	 *
-	 * @var Log
-	 */
-	protected $_model;
-
-	/**
 	 * The app id making the request
 	 *
 	 * @var int 
@@ -50,8 +44,9 @@ class ReceiveController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function __construct( Request $request ){		
+	public function __construct( Request $request, SelfLog $_self_log ){		
 		$this->_request = $request;
+		//$this->_self_log = 
 	}
 
 	/**
@@ -70,6 +65,25 @@ class ReceiveController extends Controller {
 		$this->_log = $_log->create( $this->input );	
 
 		return response()->json( $this->_log->toArray() );		
+	}
+
+	/**
+	 * ALIVE
+	 * Will repond to requests checking if this application is alive, defined as running 
+	 * every five minutes
+	 *	 
+	 * @param SelfLog $_self_log
+	 * @return string
+	 */
+	public function alive( SelfLog $_self_log ){
+		// Do we have a record written in the past 6 minutes? ( we allow one minute buffer to minimise false positives )
+		$six_minutes_ago = strtotime( '6 minutes ago' );
+		$last_record = $_self_log->orderBy('created_at', 'desc')->first();
+
+		if( strtotime( $last_record->created_at ) < $six_minutes_ago )
+			return 'down';
+
+		return 'up';
 	}
 }
 
