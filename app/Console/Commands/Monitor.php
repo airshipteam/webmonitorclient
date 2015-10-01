@@ -70,6 +70,17 @@ class Monitor extends Command {
 	 */
 	protected $last_alive_buffer = 120;
 
+	/**
+	 * Check alive window
+	 * - Will define the time window that alerts will be sent if no alive message has been sent.
+	 *   This is to stop error flooding - so we should only get one or two errors when an app hasn't 
+	 *   sent any alive message.
+	 * - Currently set at 10 minutes
+	 *
+	 * @var int
+	 */
+	protected $last_alive_window = 600;
+
 	/*----------------------
 	// 
 	// VARS
@@ -245,12 +256,18 @@ class Monitor extends Command {
 	protected function checkLastAlive( $_web_app ){
 		$_run_schedule = $_web_app->runSchedule;
 		$seconds_interval = $_run_schedule->getAliveInterval();
-		$this->setLatestLog( $_web_app );
+		$this->setLatestLog( $_web_app );	
 
-		if( $this->_latest_log )
-			if( strtotime( $this->_latest_log->updated_at ) < ( $this->now - ( $seconds_interval + $this->last_alive_buffer ) ) )
-				return false;
+		if( $this->_latest_log )			
+			if( strtotime( $this->_latest_log->updated_at ) < ( $this->now - ( $seconds_interval + $this->last_alive_buffer ) ) ){				      					
+				$time_since_last_log = $this->now - strtotime( $this->_latest_log->updated_at );
 
+				if( $time_since_last_log > ($seconds_interval + $this->last_alive_window) )
+					return true;
+				else			
+					return false;				
+			}
+	
 		return true;
 	}
 
