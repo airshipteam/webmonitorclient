@@ -1,3 +1,0 @@
-[submodule "application/libraries/webmonitorClient"] 
-  path = application/libraries/webmonitorClient 
-  url = git://esvelte.codebasehq.com/airship/enquiry-desk.git
