@@ -1,6 +1,6 @@
-<?php namespace airshipwebservices\webmonitorclient;
+<?php //namespace airshipwebservices\webmonitorclient;
 
-use Unirest;
+//use Unirest;
 
 class Logger{
 
@@ -79,14 +79,30 @@ class Logger{
 		"Accept" => "application/json"
 	);
 
+	/*----------------------
+	// 
+	// DEPENDANCIES
+	//
+	//----------------------*/
+	/**
+	 * Unirest
+	 *
+	 * @var Unirest
+	 */
+	protected $_unirest = null;
+
 	/**
 	 * CONSTRUCT
 	 *
 	 * @return void
 	 */
 	public function __construct(){
-		include( 'Config.php' );
+		include( 'Config.php' );	
 		$this->web_monitor_host = $config['web_monitor_host'];
+	}
+
+	public function setUnirest( Unirest $unirest ){
+		$this->_unirest = $unirest;
 	}
 
 	/**
@@ -114,7 +130,7 @@ class Logger{
 	 * @return mixed
 	 */
 	protected function makeWebMonitorRequest( $params ){
-		$response = Unirest\Request::post( 
+		$response = $this->_unirest->post( 
 			$this->web_monitor_host . $params['route'] . '/' . $params['app_id'], 
 			$this->web_monitor_headers, 
 			$params['body']
