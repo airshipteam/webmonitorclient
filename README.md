@@ -8,13 +8,13 @@ First include this repo ( put in top level ):
 ```json
 "repositories": [{
 	    "type": "vcs",
-        "url": "https://github.com/airshipWebservices/webmonitorclient"
+        "url": "https://github.com/airshipwebservices/webmonitorclient"
     }
 ],	
 ```
 Add the following value to your require attribute:
 ```json
-"airshipWebservices/webmonitorclient" : "dev-master"
+"airshipwebservices/webmonitorclient" : "dev-master"
 ```
 This package is implemented following PSR-4 autoloading standard. Add the following value to the autoload/psr-4 param:
 ```json
