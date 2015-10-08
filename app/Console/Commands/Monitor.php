@@ -255,6 +255,10 @@ class Monitor extends Command {
 	 */	
 	protected function checkLastAlive( $_web_app ){
 		$_run_schedule = $_web_app->runSchedule;
+		
+		if($_run_schedule === 0)
+			return true;
+
 		$seconds_interval = $_run_schedule->getAliveInterval();
 		$this->setLatestLog( $_web_app );	
 
