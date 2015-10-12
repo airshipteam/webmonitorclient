@@ -1,6 +1,6 @@
-<?php //namespace airshipwebservices\webmonitorclient;
+<?php namespace airshipwebservices\webmonitorclient;
 
-//use Unirest;
+use Unirest;
 
 class Logger{
 
