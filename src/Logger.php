@@ -101,10 +101,6 @@ class Logger{
 		$this->web_monitor_host = $config['web_monitor_host'];
 	}
 
-	public function setUnirest( Unirest $unirest ){
-		$this->_unirest = $unirest;
-	}
-
 	/**
 	 * WRITE LOG
 	 * Entry point for sending a request message to the web monitor
@@ -130,7 +126,7 @@ class Logger{
 	 * @return mixed
 	 */
 	protected function makeWebMonitorRequest( $params ){
-		$response = $this->_unirest->post( 
+		$response = Unirest\Request::post(
 			$this->web_monitor_host . $params['route'] . '/' . $params['app_id'], 
 			$this->web_monitor_headers, 
 			$params['body']
