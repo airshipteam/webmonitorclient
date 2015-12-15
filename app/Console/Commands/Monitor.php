@@ -344,7 +344,7 @@ class Monitor extends Command {
 			'severity' 	=> $_log->severity,
 			'msg' 		=> $_log->msg,
 			'app_name' 	=> $web_app_name,
-			'app_id' 	=> $_log->id
+			'app_id' 	=> $_log->web_app_id
 		);
 
 		$this->sendEmail( $email_data );
@@ -373,6 +373,8 @@ class Monitor extends Command {
 	protected function getWebAppName( $_log ){
 		return $_log->find( $_log->id )->webApp->app_name;
 	}
+
+
 }
 
 
