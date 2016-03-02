@@ -358,8 +358,9 @@ class Monitor extends Command {
 	 * @return boolean 
 	 */	
 	protected function sendEmail( $email_data ){		
-		$this->_mail->send('emails.error', $email_data, function($message, $email_data){
-		    $message->to( $this->mail_send_to, $this->send_to_name )->subject( $this->email_subject . ' - ' . $email_data['app_name'] );
+		$this->email_subject = $this->email_subject  . ' - ' . $email_data['app_name'];
+		$this->_mail->send('emails.error', $email_data, function($message){
+		    $message->to( $this->mail_send_to, $this->send_to_name )->subject( $this->email_subject);
 		});
 	}
 
