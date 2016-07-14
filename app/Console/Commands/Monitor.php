@@ -1,5 +1,6 @@
 <?php namespace App\Console\Commands;
 
+use App\Lib\Airbrake;
 use Illuminate\Console\Command;
 use App\Models\WebApp;
 use App\Models\SelfLog;
@@ -188,9 +189,11 @@ class Monitor extends Command {
 	 * @return void
 	 */
 	public function fire(){
-		$this->alive();
-		$this->getWebAppsCollection();
-		$this->doChecks();
+
+			$this->alive();
+			$this->getWebAppsCollection();
+			$this->doChecks();
+
 	}
 
 	/**
@@ -358,7 +361,14 @@ class Monitor extends Command {
 	 * @param array $email_data
 	 * @return boolean 
 	 */	
-	protected function sendEmail( $email_data ){		
+	protected function sendEmail( $email_data ){
+
+		$input = $email_data;
+
+		$input['web_app_id'] = $input['app_id'];
+
+		Airbrake::send($input);
+
 		$this->email_subject_app_name = $this->email_subject  . ' - ' . $email_data['app_name'];
 		$this->_mail->send('emails.error', $email_data, function($message){
 		    $message->to( $this->mail_send_to, $this->send_to_name )->subject( $this->email_subject_app_name);

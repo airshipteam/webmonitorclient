@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Lib\Airbrake;
 use Illuminate\Http\Request;
 use App\Models\Log;
 use App\Models\SelfLog;
@@ -62,10 +63,11 @@ class ReceiveController extends Controller {
 		$this->id = $id;			
 		$this->input['web_app_id'] = $this->id;
 
-		$this->_log = $_log->create( $this->input );	
-
+		$this->_log = $_log->create( $this->input );
+		
 		return response()->json( $this->_log->toArray() );		
 	}
+
 
 	/**
 	 * ALIVE
