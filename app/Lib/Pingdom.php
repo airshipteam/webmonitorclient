@@ -88,7 +88,7 @@ class Pingdom
 
     public static function expectedCompletion(WebApp $app, Ping $startPing)
     {
-        $timeSent = strtotime($startPing->time_sent);
+        $timeSent = strtotime($startPing->created_at);
 
         return  $timeSent + $app->max_execution_time_seconds;
     }
@@ -111,7 +111,7 @@ class Pingdom
         }
 
 
-        if(strtotime($input['time_sent']) > self::expectedCompletion(WebApp::find($startPing->web_app_id), $startPing))
+        if(self::hasRunExceededMaxExecutionTime(WebApp::find($startPing->web_app_id), $startPing))
         {
             self::markAsTimedOut($startPing, $input['time_sent']);
 
