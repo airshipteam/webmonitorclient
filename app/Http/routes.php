@@ -21,6 +21,14 @@ Route::get('/alive', [
 	'uses' => 'ReceiveController@alive'
 ]);
 
+Route::group(['prefix' => '/pings'],function(){
+
+	Route::post('/start', ['as' => 'ping.start', 'uses' => 'PingController@start']);
+
+	Route::post('/end', ['as' => 'ping.end', 'uses' => 'PingController@end']);
+
+});
+
 
 //Route::post('/alive/{id}', 'AliveController@index');
 

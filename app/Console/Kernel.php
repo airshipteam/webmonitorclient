@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		'App\Console\Commands\Inspire',
 		'App\Console\Commands\Monitor',
+		'App\Console\Commands\Pingdom',
+
 	];
 
 	/**
@@ -25,5 +27,7 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->command('monitor')
 				 ->everyFiveMinutes();
+		$schedule->command('pings:alert')
+			->everyFiveMinutes();
 	}
 }

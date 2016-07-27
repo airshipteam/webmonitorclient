@@ -64,7 +64,7 @@ class ReceiveController extends Controller {
 		$this->input['web_app_id'] = $this->id;
 
 		$this->_log = $_log->create( $this->input );
-		
+
 		return response()->json( $this->_log->toArray() );		
 	}
 
@@ -87,6 +87,7 @@ class ReceiveController extends Controller {
 
 		return 'up';
 	}
+
 }
 
 
