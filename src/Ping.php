@@ -26,14 +26,13 @@ class Ping
             'time_sent' => date('Y-m-d H:i:s', time())
         ]);
 
-        $decodedResponse = json_decode($response);
 
-        if(!$decodedResponse)
+        if(!$response)
         {
             return false;
         }
 
-        $this->runId = $decodedResponse->run_id;
+        $this->runId = $response->run_id;
 
         return true;
 
@@ -47,13 +46,10 @@ class Ping
             'time_sent' => date('Y-m-d H:i:s', time())
         ]);
 
-        $decodedResponse = json_decode($response);
-
-        if(!$decodedResponse)
+        if(!$response)
         {
             return false;
         }
-
         return true;
     }
 
@@ -68,26 +64,42 @@ class Ping
 
     private function post($endpoint, array $params)
     {
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $this->url(). $endpoint);
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
 
-        curl_setopt($ch, CURLOPT_POST, 1);
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
+        $result = $this->makeCall($ch);
+
+        return $result;
+
+    }
+
+    private function makeCall($ch)
+    {
         try {
-            $result =  curl_exec($ch);
+            $response =  curl_exec($ch);
 
         }catch(\Exception $e)
         {
-            $result = null;
+            return null;
         }
+
+        $info = curl_getinfo($ch);
+
         curl_close($ch);
 
-        return $result;
+        if($info['http_code'] != 200)
+        {
+            return null;
+        }
+
+        return json_decode($response);
+
 
     }
 
