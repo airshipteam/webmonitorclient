@@ -76,9 +76,7 @@ class Pingdom
 
     public static function hasRunExceededMaxExecutionTime(WebApp $app, Ping $startPing)
     {
-        $timeSent = strtotime($startPing->time_sent);
-
-        $expectedCompletion =  $timeSent + $app->max_execution_time_seconds;
+        $expectedCompletion = self::expectedCompletion($app, $startPing);
 
         if(time() > $expectedCompletion)
         {
@@ -86,6 +84,13 @@ class Pingdom
         }
 
         return false;
+    }
+
+    public static function expectedCompletion(WebApp $app, Ping $startPing)
+    {
+        $timeSent = strtotime($startPing->time_sent);
+
+        return  $timeSent + $app->max_execution_time_seconds;
     }
 
     public static function createRunID(WebApp $webApp)
@@ -105,7 +110,8 @@ class Pingdom
             return false;
         }
 
-        if(self::hasRunExceededMaxExecutionTime(WebApp::find($startPing->web_app_id), $startPing))
+
+        if(strtotime($input['time_sent']) > self::expectedCompletion(WebApp::find($startPing->web_app_id), $startPing))
         {
             self::markAsTimedOut($startPing, $input['time_sent']);
 

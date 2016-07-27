@@ -61,6 +61,11 @@ class PingController extends Controller {
 			return response()->json($validation->errors(), 400);
 		}
 
+		if(Ping::where('run_id', $request->input('run_id'))->where('type', 'end')->first())
+		{
+			return response()->json([], 400);
+		}
+
 		$statusUpdated = Pingdom::completeRun($request->all());
 
 		if($statusUpdated)
