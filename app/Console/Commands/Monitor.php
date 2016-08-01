@@ -214,7 +214,7 @@ class Monitor extends Command {
 	 * @return void
 	 */
 	protected function getWebAppsCollection(){
-		$this->_web_apps = $this->_web_app->all();
+		$this->_web_apps = $this->_web_app->where('max_execution_time_seconds', 0)->get();
 	}
 
 	/**
@@ -229,7 +229,10 @@ class Monitor extends Command {
 			$this->checkLogAlerts( $_web_app );
 
 			if( !$this->checkLastAlive( $_web_app ) )
-				$this->sendNotAliveMsg( $_web_app );			
+			{
+				$this->sendNotAliveMsg( $_web_app );
+
+			}
 		});
 	}
 
@@ -266,14 +269,13 @@ class Monitor extends Command {
 
 		$seconds_interval = $_run_schedule->getAliveInterval();
 		$this->setLatestLog( $_web_app );	
+		if( $this->_latest_log )
+			if( strtotime( $this->_latest_log->updated_at ) < ( $this->now - ( $seconds_interval + $this->last_alive_buffer ) ) ){
 
-		if( $this->_latest_log )			
-			if( strtotime( $this->_latest_log->updated_at ) < ( $this->now - ( $seconds_interval + $this->last_alive_buffer ) ) ){				      					
 				$time_since_last_log = $this->now - strtotime( $this->_latest_log->updated_at );
-
 				if( $time_since_last_log > ($seconds_interval + $this->last_alive_window) )
 					return true;
-				else			
+				else
 					return false;				
 			}
 	

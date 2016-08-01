@@ -55,7 +55,7 @@ class Pingdom
     public static function sendAirbrakeAlert(WebApp $app, Ping $startPing)
     {
 
-        self::airbrake($app->app_name . ' has exceeded its max execution time', 'Run ID = ' . $startPing->run_id);
+        self::airbrake($app->app_name . ' has exceeded its max execution time', 'Run ID = ' . $startPing->run_id .' / Max execution time ' . $app->max_execution_time_seconds . ' secs');
 
     }
 

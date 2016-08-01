@@ -50,9 +50,7 @@ class Pingdom extends Command {
 			if($app)
 			{
 				\App\Lib\Pingdom::sendAirbrakeAlert($app, $run);
-
 			}
-
 		}
 
 		foreach(WebApp::where('max_execution_time_seconds', '!=', 0)->get() as $app)
