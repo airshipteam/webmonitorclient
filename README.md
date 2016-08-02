@@ -21,7 +21,36 @@ This package is implemented following PSR-4 autoloading standard. Add the follow
 "airshipwebservices\\webmonitorclient\\" : "src"
 ```
 
-### USAGE
+### USAGE (Cron Pings)
+
+To use the ping functionality in your project first create a new instance of the Ping class passing it the Web App ID from Web Monitor
+
+```php
+
+$ping = new airshipwebservices\webmonitorclient\Ping($appId);
+
+```
+
+At the beginning of your cron call the start method
+
+ ```php
+
+$ping->start();
+
+```
+And at the end call the end method
+
+```php
+
+$ping->end();
+
+```
+
+Each method it fails will return false.
+
+
+
+### USAGE (Error reporting)
 To use in your class via dependancy injection, implement the use keyword to include the library:
 ```php
 use airshipwebservices\webmonitorclient\Logger;

@@ -40,6 +40,12 @@ class Ping
 
     public function end()
     {
+
+        if(!$this->runId)
+        {
+            return false;
+        }
+
         $response = $this->post('/pings/end', [
             'app_id' => $this->appId,
             'run_id' => $this->runId,
