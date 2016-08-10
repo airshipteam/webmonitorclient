@@ -194,7 +194,7 @@ class Pingdom
             return false;
         }
 
-        $secondsSinceLastPing = time() - strtotime($lastPing->time_sent);
+        $secondsSinceLastPing = time() - strtotime($lastPing->created_at);
 
         if($secondsSinceLastPing > $requiredInterval)
         {
