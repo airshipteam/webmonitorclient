@@ -188,7 +188,7 @@ class Pingdom
 
         $lastPing = self::getLastStartPing($app);
 
-
+ 
         if(!$lastPing)
         {
             return false;
