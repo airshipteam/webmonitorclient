@@ -186,6 +186,8 @@ class Pingdom
 
         $requiredInterval = $runSchedule->getAliveInterval();
 
+        $buffer = 59; // Give the app a chance to send a start ping
+
         $lastPing = self::getLastStartPing($app);
 
  
@@ -193,10 +195,9 @@ class Pingdom
         {
             return false;
         }
-
         $secondsSinceLastPing = time() - strtotime($lastPing->created_at);
 
-        if($secondsSinceLastPing > $requiredInterval)
+        if($secondsSinceLastPing > $requiredInterval + $buffer)
         {
             return true;
         }
