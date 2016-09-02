@@ -24,7 +24,7 @@ class Airbrake
       }
 
 
-      $airbrakeCon = new Notifier(['projectId' => '126972', 'projectKey' => '1028a99cb409ee35ab22e53966e457c']);
+      $airbrakeCon = new Notifier(['projectId' => '126972', 'projectKey' => '1028a99cb409ee35ab22e53966e457c8']);
 
     try{
         $response = $airbrakeCon->sendNotice([
