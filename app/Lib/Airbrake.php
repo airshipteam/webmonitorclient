@@ -18,7 +18,7 @@ class Airbrake
       $app = WebApp::find($input['web_app_id']);
 
       if(!$app){
-          AirbrakeLogger::error('Coldn\'t find app', $input );
+          AirbrakeLogger::error('Couldn\'t find app', $input );
 
           return false;
       }
