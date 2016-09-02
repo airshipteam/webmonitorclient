@@ -30,13 +30,6 @@ Route::group(['prefix' => '/pings'],function(){
 });
 
 
-Route::post('/test', function(\Illuminate\Http\Request $request){
-
-
-	\App\Lib\Airbrake::send($request->all());
-
-});
-
 
 //Route::post('/alive/{id}', 'AliveController@index');
 
