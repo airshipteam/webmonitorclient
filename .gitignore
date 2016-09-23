@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 /vendor
 /node_modules
 .env
 .idea/
+=======
+vendor/
+composer.lock
+.idea
+>>>>>>> 383e40316e8f3afc2958c0f664ea717e361ea070

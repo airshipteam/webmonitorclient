@@ -1,6 +1,7 @@
 <?php namespace App\Console\Commands;
 
 use App\Lib\Airbrake;
+use App\Lib\MonitorLogger;
 use Illuminate\Console\Command;
 use App\Models\WebApp;
 use App\Models\SelfLog;
@@ -190,9 +191,15 @@ class Monitor extends Command {
 	 */
 	public function fire(){
 
+		try{
 			$this->alive();
 			$this->getWebAppsCollection();
 			$this->doChecks();
+		}catch(\Exception $e)
+		{
+			MonitorLogger::error('Running the Monitor failes', ['message' => $e->getMessage(), 'code' => $e->getCode(), 'file' => $e->getFile(), 'line' => $e->getLine()]);
+		}
+
 
 	}
 
@@ -225,7 +232,10 @@ class Monitor extends Command {
 	 */	
 	protected function doChecks(){
 
-		$this->_web_apps->each( function( $_web_app ) {		
+		$this->_web_apps->each( function( $_web_app ) {
+
+			MonitorLogger::debug('Running checks for Web App', $_web_app->toArray());
+
 			$this->checkLogAlerts( $_web_app );
 
 			if( !$this->checkLastAlive( $_web_app ) )
@@ -244,10 +254,12 @@ class Monitor extends Command {
 	 * @return void 
 	 */	
 	protected function checkLogAlerts( $_web_app ){
+
 		$alerts = $_web_app->logs()->where('send_email', '=', $this->send_email )->get();
 		if( $alerts->count() !== 0 )
 			foreach( $alerts as $_log ){
-				$this->sendLogMsg( $_log );				
+				MonitorLogger::debug('Sending log', $_log->toArray());
+				$this->sendLogMsg( $_log );
 				$this->markEmailSent( $_log );
 			}		
 	}
@@ -372,6 +384,8 @@ class Monitor extends Command {
 		Airbrake::send($input);
 
 		$this->email_subject_app_name = $this->email_subject  . ' - ' . $email_data['app_name'];
+
+		MonitorLogger::debug('Sending email', $email_data);
 		$this->_mail->send('emails.error', $email_data, function($message){
 		    $message->to( $this->mail_send_to, $this->send_to_name )->subject( $this->email_subject_app_name);
 		});

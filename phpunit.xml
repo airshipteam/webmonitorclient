@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
+<<<<<<< HEAD
          bootstrap="bootstrap/autoload.php"
+=======
+         bootstrap="vendor/autoload.php"
+>>>>>>> 383e40316e8f3afc2958c0f664ea717e361ea070
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -10,6 +14,7 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
+<<<<<<< HEAD
         <testsuite name="Application Test Suite">
             <directory>./tests/</directory>
         </testsuite>
@@ -21,3 +26,10 @@
         <env name="QUEUE_DRIVER" value="sync"/>
     </php>
 </phpunit>
+=======
+        <testsuite name="Webmonitorclient Test Suite">
+            <directory suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
+>>>>>>> 383e40316e8f3afc2958c0f664ea717e361ea070

@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"name": "laravel/laravel",
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
@@ -42,4 +43,22 @@
 	"config": {
 		"preferred-install": "dist"
 	}
+=======
+	"name": "airshipwebservices/webmonitorclient",
+	"description": "Client for airship web services web monitor app",
+	"keywords": ["web", "monitor"],
+	"license": "MIT",
+	"type": "project",
+	"require": {
+        "mashape/unirest-php": "2.*"
+	},
+	"require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+	 "autoload": {
+        "psr-4" : {
+            "airshipwebservices\\webmonitorclient\\" : "src"
+        }
+    }  	
+>>>>>>> 383e40316e8f3afc2958c0f664ea717e361ea070
 }
