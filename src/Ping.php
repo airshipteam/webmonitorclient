@@ -13,7 +13,7 @@ class Ping
      * Ping constructor.
      * @param $appId
      */
-    public function __construct($appId)
+    public function __construct($appId = FALSE)
     {
         $this->appId = $appId;
     }
