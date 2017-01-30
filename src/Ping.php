@@ -5,7 +5,7 @@ namespace airshipwebservices\webmonitorclient;
 class Ping
 {
 
-    protected $appId;
+    public $appId;
 
     protected $runId;
 
